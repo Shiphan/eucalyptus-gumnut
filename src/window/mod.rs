@@ -1,8 +1,8 @@
 use std::ops::Deref;
 
 use gpui::{
-    App, AppContext, Bounds, Context, Entity, IntoElement, ParentElement, PlatformDisplay, Render,
-    Size, Styled, WindowBackgroundAppearance, WindowBounds, WindowKind, WindowOptions, black, div,
+    AppContext, Bounds, Context, Entity, IntoElement, ParentElement, PlatformDisplay, Render, Size,
+    Styled, WindowBackgroundAppearance, WindowBounds, WindowKind, WindowOptions, black, div,
     layer_shell::{Anchor, KeyboardInteractivity, Layer, LayerShellOptions},
     point, px, white,
 };
@@ -19,7 +19,7 @@ pub struct Window {
 }
 
 impl Window {
-    pub fn build_root_view(_window: &mut gpui::Window, cx: &mut App) -> Entity<Self> {
+    pub fn new(cx: &mut impl AppContext) -> Entity<Self> {
         cx.new(|cx| Self {
             power_profile: cx.new(|cx| PowerProfile::new(cx)),
         })

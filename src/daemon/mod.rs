@@ -35,6 +35,9 @@ pub fn start() {
             println!("hi");
             cx.background_spawn(daemon(tx)).detach();
             cx.spawn(|cx: &mut AsyncApp| {
+                // TODO: Construct window only once make sure we don't spawn multiple task
+                // but I'm not sure how this will work with multiple screen
+                let window = Window::new(cx);
                 timer(
                     5.0,
                     rx,
@@ -46,10 +49,7 @@ pub fn start() {
                                 for display in displays {
                                     cx.open_window(
                                         Window::window_options(Some(display)),
-                                        // FIXME: this will spawn a new task every time a window is opened, need to find a way to only fix this,
-                                        // maybe create only one "app",
-                                        // or just spawn the task without use gpui's api
-                                        |window, cx| Window::build_root_view(window, cx),
+                                        |_, _| window.clone(),
                                     )
                                     .unwrap();
                                 }
